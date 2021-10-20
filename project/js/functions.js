@@ -65,7 +65,7 @@ let cancelClick = () => {
     document.querySelector('.modal__add__window').remove();
 }
 
-let selectField = (tagName) => {
+let selectField = (tagName, prevItem) => {
     let outGoingText = "";
     let arr = [];
     if (tagName === "priority"){
@@ -75,6 +75,9 @@ let selectField = (tagName) => {
         arr = arrStatus;
     }
     arr.forEach((item)=>{
+        if (item === prevItem){
+            outGoingText += `<option value="${item}" selected>${item}</option>` 
+        }
         outGoingText += `<option value="${item}">${item}</option>`
     })
     return outGoingText;
@@ -192,7 +195,6 @@ const createModalWindowForEdition = (item, index) =>{
     const nameOfTaskToEdit = item.querySelector('.todo-text').innerHTML;
     const statusOfTaskToEdit = item.querySelector('.todo-status').innerHTML;
     const priorityOfTaskToEdit = item.querySelector('.todo-priority').innerHTML;
-    const deadlineOfTaskToEdit = item.querySelector('.todo-ddl').innerHTML;
     const modalEditWindow = document.createElement('div');
     modalEditWindow.innerHTML = `
     <div class="wrapper__window">
@@ -202,9 +204,9 @@ const createModalWindowForEdition = (item, index) =>{
                     <p class="header__input">Choose name for you task</p>
                     <input name="headline" type="text" class="text__input" value="${nameOfTaskToEdit}"></input>
                     <p class="header__input">Choose status for you task</p>
-                    <select name="status" class="status__input select__input"> ${selectField('status')}</select>
+                    <select name="status" class="status__input select__input"> ${selectField('status',statusOfTaskToEdit)}</select>
                     <p class="header__input">Chose priority for you task</p>
-                    <select name="priority" class="priority__input select__input"> ${selectField('priority')}</select>
+                    <select name="priority" class="priority__input select__input"> ${selectField('priority',priorityOfTaskToEdit)}</select>
                     <p class="header__input">Chose deadline for you task</p>
                     <input name="ddl" type="date" min="2021-07-20" max="2021-12-31" class="ddl__input"></input>
                 </form>
